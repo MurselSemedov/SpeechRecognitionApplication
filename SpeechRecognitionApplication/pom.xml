@@ -27,6 +27,11 @@
       <artifactId>sphinx4-core</artifactId>
       <version>5prealpha</version>
     </dependency>
+    <dependency>
+      <groupId>de.sciss</groupId>
+      <artifactId>sphinx4-data</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 <!--    <dependency>-->
 <!--      <groupId>edu.cmu.sphinx</groupId>-->
 <!--      <artifactId>sphinx4-api</artifactId>-->
