@@ -1,26 +1,40 @@
-package edu.aztu;
+package edu.aztu.util;
 
+import java.io.File;
 import java.util.Properties;
 
-import jakarta.mail.Authenticator;
-import jakarta.mail.Message;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 
 public class GmailFileSender {
     private static final String EMAIL_FROM = "murselsemedov03@gmail.com";
     private static final String EMAIL_TO = "mursalsamadovv@gmail.com";
     private static final String APP_PASSWORD = "moth qnao ruuz edho";
 
-    public static void main(String[] args) throws Exception {
+    public static void sendFileToGmail(String obj) throws Exception {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(EMAIL_FROM));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL_TO));
         message.setSubject("Email subject");
-        message.setText("This is my email sent from Gmail using Java");
+//        message.setText("This is my email sent from Gmail using Java");
+        MimeMultipart mimeMultipart = new MimeMultipart();
+
+        MimeBodyPart messagePart = new MimeBodyPart();
+        messagePart.setText("This is my email sent from Gmail using Java");
+//        MimeBodyPart filePart = new MimeBodyPart();
+//        DataSource source = new FileDataSource(new File(obj));
+//        filePart.setDataHandler(new DataHandler(source));
+        MimeBodyPart attachmentPart = new MimeBodyPart();
+        attachmentPart.attachFile(new File(obj));
+        mimeMultipart.addBodyPart(attachmentPart);
+        mimeMultipart.addBodyPart(messagePart);
+        message.setContent(mimeMultipart);
         Transport.send(message);
     }
 
