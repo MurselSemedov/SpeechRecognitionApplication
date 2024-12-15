@@ -3,41 +3,53 @@ package edu.aztu.util;
 import java.io.File;
 import java.util.Properties;
 
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
+
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
+
 public class GmailFileSender {
     private static final String EMAIL_FROM = "murselsemedov03@gmail.com";
-    private static final String EMAIL_TO = "mursalsamadovv@gmail.com";
+//    private static String emailTo;
     private static final String APP_PASSWORD = "moth qnao ruuz edho";
-
-    public static void sendFileToGmail(String obj) throws Exception {
+    public static void sendFileToGmail(String obj,String emailTo) throws Exception {
+//        requireGmail();
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(EMAIL_FROM));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL_TO));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
         message.setSubject("Email subject");
-//        message.setText("This is my email sent from Gmail using Java");
         MimeMultipart mimeMultipart = new MimeMultipart();
-
         MimeBodyPart messagePart = new MimeBodyPart();
         messagePart.setText("This is my email sent from Gmail using Java");
-//        MimeBodyPart filePart = new MimeBodyPart();
-//        DataSource source = new FileDataSource(new File(obj));
-//        filePart.setDataHandler(new DataHandler(source));
         MimeBodyPart attachmentPart = new MimeBodyPart();
         attachmentPart.attachFile(new File(obj));
         mimeMultipart.addBodyPart(attachmentPart);
         mimeMultipart.addBodyPart(messagePart);
         message.setContent(mimeMultipart);
         Transport.send(message);
+        System.out.println("Gmail ugurla gonderildi");
     }
 
+//    private static void requireGmail() throws IOException {
+//        System.out.println("Gmail bildirin");
+//        Configuration config1 = new Configuration();
+//        String s = null;
+//        config1.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+//        config1.setDictionaryPath("src\\main\\resources\\gmails.dic");
+//        config1.setLanguageModelPath("src\\main\\resources\\gmails.lm");
+//        LiveSpeechRecognizer speech = new LiveSpeechRecognizer(config1);
+//        speech.startRecognition(true);
+//        SpeechResult speechResult;
+//        if ((speechResult = speech.getResult()) != null) {
+//            String voiceCommand = speechResult.getHypothesis();
+//            if(voiceCommand.contains("@gmail.com")){
+//                emailTo = voiceCommand;
+//            }
+//        }
+//    }
     private static Session getEmailSession() {
         return Session.getInstance(getGmailProperties(), new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
