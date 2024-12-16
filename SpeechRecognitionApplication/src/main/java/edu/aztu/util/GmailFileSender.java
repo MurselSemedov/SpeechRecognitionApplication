@@ -13,24 +13,29 @@ import jakarta.mail.internet.MimeMultipart;
 
 public class GmailFileSender {
     private static final String EMAIL_FROM = "murselsemedov03@gmail.com";
-//    private static String emailTo;
     private static final String APP_PASSWORD = "moth qnao ruuz edho";
-    public static void sendFileToGmail(String obj,String emailTo) throws Exception {
+    public static void sendFileToGmail(String obj,String emailTo){
+        System.out.println(emailTo);
+        System.out.println(obj);
 //        requireGmail();
-        Message message = new MimeMessage(getEmailSession());
-        message.setFrom(new InternetAddress(EMAIL_FROM));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
-        message.setSubject("Email subject");
-        MimeMultipart mimeMultipart = new MimeMultipart();
-        MimeBodyPart messagePart = new MimeBodyPart();
-        messagePart.setText("This is my email sent from Gmail using Java");
-        MimeBodyPart attachmentPart = new MimeBodyPart();
-        attachmentPart.attachFile(new File(obj));
-        mimeMultipart.addBodyPart(attachmentPart);
-        mimeMultipart.addBodyPart(messagePart);
-        message.setContent(mimeMultipart);
-        Transport.send(message);
-        System.out.println("Gmail ugurla gonderildi");
+        try {
+            Message message = new MimeMessage(getEmailSession());
+            message.setFrom(new InternetAddress(EMAIL_FROM));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
+            message.setSubject("Email subject");
+            MimeMultipart mimeMultipart = new MimeMultipart();
+            MimeBodyPart messagePart = new MimeBodyPart();
+            messagePart.setText("This is my email sent from Gmail using Java");
+            MimeBodyPart attachmentPart = new MimeBodyPart();
+            attachmentPart.attachFile(new File(obj));
+            mimeMultipart.addBodyPart(attachmentPart);
+            mimeMultipart.addBodyPart(messagePart);
+            message.setContent(mimeMultipart);
+            Transport.send(message);
+            System.out.println("Gmail ugurla gonderildi");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 //    private static void requireGmail() throws IOException {

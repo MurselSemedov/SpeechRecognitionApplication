@@ -8,30 +8,33 @@ import java.io.ByteArrayInputStream;
 public class GoogleTTS{
     public static void main(String[] args) throws Exception {
 //        sayText("sakinaquliyeva15@gmail.com");
-        sayText("mirzyevelgun439@gmail.com");
+//        sayText("mirzyevelgun439@gmail.com");
+        sayText("Gmail adresinizi söyleyin");
 //        sayText("amrahli112@gmail.com");
 //        sayText("Hangi gmail adresine göndereceksiniz ");
     }
 
 
 
-    public static void sayText(String text) throws Exception {
+    public static void sayText(String text){
         try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
             // Mətn və səsin dili
             SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
             VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
-                    .setLanguageCode("en-GB")
+                    .setLanguageCode("tr-TR")
 //                    .setName("tr-TR-Wavenet-C")
                     .setSsmlGender(SsmlVoiceGender.FEMALE)
                     .build();
             AudioConfig audioConfig = AudioConfig.newBuilder()
                     .setAudioEncoding(AudioEncoding.LINEAR16) // PCM formatında audio
-                    .setSpeakingRate(0.5)
+                    .setSpeakingRate(1)
                     .build();
 //            // Səs yaratmaq
             SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
 ////             Çıxış faylını yazmaq
             playAudio(response.getAudioContent().toByteArray());
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
